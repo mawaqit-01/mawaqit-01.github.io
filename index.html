@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مواقيت المسجد | تطبيق مواقيت الصلاة لشاشات المساجد</title>
+<meta name="description" content="مواقيت المسجد: تطبيق مجاني لعرض مواقيت الأذان والإقامة على شاشات المساجد عبر Android TV وأجهزة TV Box والمتصفح، بحساب مواقيت سلطنة عُمان، مع التاريخ الهجري والعد التنازلي للإقامة والأذكار.">
+<meta name="keywords" content="مواقيت المسجد, مواقيت الصلاة, شاشة مسجد, تطبيق مسجد, أوقات الصلاة عمان, الأذان والإقامة, Android TV, TV Box, ساعة المسجد">
+<meta name="author" content="عبدالله بن محمد النعماني">
+<meta name="theme-color" content="#0B2A24">
+<link rel="canonical" href="https://mawaqit-01.github.io/">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:site_name" content="مواقيت المسجد">
+<meta property="og:title" content="مواقيت المسجد | تطبيق مواقيت الصلاة لشاشات المساجد">
+<meta property="og:description" content="تطبيق مجاني لعرض مواقيت الأذان والإقامة على شاشات المساجد، بحساب مواقيت سلطنة عُمان.">
+<meta property="og:url" content="https://mawaqit-01.github.io/">
+<meta property="og:image" content="https://mawaqit-01.github.io/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "مواقيت المسجد",
+  "alternateName": "تطبيق مواقيت الصلاة للمساجد",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Android TV, Android, Web",
+  "inLanguage": "ar",
+  "description": "تطبيق مجاني لعرض مواقيت الأذان والإقامة على شاشات المساجد، بحساب مواقيت سلطنة عُمان.",
+  "image": "https://mawaqit-01.github.io/assets/og-image.png",
+  "url": "https://mawaqit-01.github.io/",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "OMR" },
+  "author": { "@type": "Person", "name": "عبدالله بن محمد النعماني" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:#0B2A24; --green2:#12403A; --green3:#1B5248;
+  --gold:#E0B64A; --gold2:#C99A2E; --mint:#9FC5B8;
+  --cream:#F7F1E3; --cream2:#EFE5CF; --ink:#1E2A26; --muted:#5C6B66;
+  --r:18px; --nav:68px;
+  --pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23E0B64A' stroke-width='1'%3E%3Cpath d='M32 6l7.5 18.5L58 32l-18.5 7.5L32 58l-7.5-18.5L6 32l18.5-7.5z'/%3E%3Crect x='19' y='19' width='26' height='26' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E");
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav)}
+body{font-family:Cairo,Tahoma,sans-serif;color:var(--ink);background:var(--cream);line-height:1.8;font-size:17px}
+img{max-width:100%;height:auto;display:block}
+[hidden]{display:none!important}
+a{color:inherit}
+.wrap{width:min(1160px,92%);margin-inline:auto}
+section{padding:88px 0}
+.dark{background:var(--green);color:#F5ECD2;position:relative;overflow:hidden}
+.dark::before{content:"";position:absolute;inset:0;background:var(--pattern);opacity:.07;pointer-events:none}
+.dark>*{position:relative}
+.eyebrow{display:inline-block;font-weight:700;font-size:.9rem;color:var(--gold2);letter-spacing:.02em;margin-bottom:6px}
+.dark .eyebrow{color:var(--gold)}
+h2{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:900;line-height:1.35;margin-bottom:12px}
+.lead{color:var(--muted);max-width:640px;font-size:1.05rem}
+.dark .lead{color:var(--mint)}
+.head{margin-bottom:44px}
+.head.center{text-align:center}.head.center .lead{margin-inline:auto}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border-radius:999px;font:700 1rem Cairo,sans-serif;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-gold{background:var(--gold);color:var(--green)}
+.btn-gold:hover{background:#ecc65f}
+.btn-line{border-color:rgba(224,182,74,.6);color:var(--gold);background:transparent}
+.btn-line:hover{background:rgba(224,182,74,.12)}
+.btn-green{background:var(--green);color:#F5ECD2}
+.btn-green:hover{background:var(--green3)}
+
+/* nav */
+header{position:fixed;inset:0 0 auto;height:var(--nav);z-index:50;background:rgba(11,42,36,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(224,182,74,.18)}
+header .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#F5ECD2;font-weight:900;font-size:1.25rem}
+.brand img{width:38px;height:38px;border-radius:10px}
+nav ul{display:flex;list-style:none;gap:4px}
+nav a{display:block;padding:8px 14px;border-radius:999px;text-decoration:none;color:#D9E6E1;font-weight:600;font-size:.97rem;transition:background .2s,color .2s}
+nav a:hover{color:var(--gold)}
+nav a.active{background:rgba(224,182,74,.15);color:var(--gold)}
+
+/* hero */
+#home{padding:calc(var(--nav) + 40px) 0 80px}
+.hero{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,5.4vw,3.8rem);font-weight:900;line-height:1.2;margin-bottom:8px}
+.hero h1 span{color:var(--gold)}
+.hero .tag{font-size:clamp(1.1rem,2vw,1.35rem);color:var(--mint);margin-bottom:26px;max-width:520px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+.chips li{border:1px solid rgba(159,197,184,.35);border-radius:999px;padding:4px 14px;font-size:.88rem;color:var(--mint)}
+.shots{position:relative;padding-bottom:40px}
+.tv{background:#0a0f0e;border-radius:16px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.45),0 0 0 1px rgba(224,182,74,.25)}
+.tv img{border-radius:6px;aspect-ratio:3/2;object-fit:cover;width:100%}
+.tv::after{content:"";display:block;width:26%;height:16px;margin:12px auto -2px;background:linear-gradient(#1a1f1e,#0a0f0e);border-radius:0 0 10px 10px}
+.phone{position:absolute;left:-26px;bottom:0;width:31%;background:#0a0f0e;border-radius:18px;padding:7px;box-shadow:0 20px 40px rgba(0,0,0,.5),0 0 0 1px rgba(224,182,74,.25)}
+.phone img{border-radius:12px}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border-radius:var(--r);padding:26px 24px;border:1px solid var(--cream2);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,42,36,.09)}
+.ico{width:50px;height:50px;border-radius:14px;background:var(--green);display:grid;place-items:center;margin-bottom:14px}
+.ico svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:1.15rem;font-weight:800;margin-bottom:6px;color:var(--green)}
+.card p{color:var(--muted);font-size:.96rem;line-height:1.75}
+
+.calc{margin-top:28px;background:var(--green);color:#F5ECD2;border-radius:var(--r);padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.calc h3{color:var(--gold);font-size:1.15rem;margin-bottom:6px}
+.calc ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+.calc li{background:rgba(255,255,255,.07);border:1px solid rgba(159,197,184,.25);border-radius:10px;padding:4px 12px;font-size:.9rem;color:var(--mint)}
+.calc li b{color:#F5ECD2}
+
+/* download */
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.dl-card{background:var(--green2);border:1px solid rgba(224,182,74,.22);border-radius:22px;padding:32px;display:flex;flex-direction:column}
+.dl-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.dl-icon{width:64px;height:64px;border-radius:16px;background:rgba(224,182,74,.12);display:grid;place-items:center;flex:none}
+.dl-icon svg{width:34px;height:34px;stroke:var(--gold);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.dl-card h3{font-size:1.4rem;font-weight:900}
+.dl-card .sub{color:var(--mint);font-size:.95rem}
+.dl-card p{color:#D9E6E1;margin-bottom:16px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-bottom:24px}
+.meta li{background:rgba(0,0,0,.18);border-radius:10px;padding:4px 12px;font-size:.88rem;color:var(--mint)}
+.meta li b{color:#F5ECD2;font-weight:700}
+.dl-card .btns{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px}
+
+/* install */
+.tabs{display:inline-flex;background:var(--cream2);border-radius:999px;padding:5px;margin-bottom:30px;gap:4px;flex-wrap:wrap}
+.tab{border:0;background:none;padding:10px 22px;border-radius:999px;font:700 1rem Cairo,sans-serif;color:var(--muted);cursor:pointer}
+.tab[aria-selected=true]{background:var(--green);color:var(--gold)}
+.panel[hidden]{display:none}
+.steps{list-style:none;counter-reset:s;display:grid;gap:14px}
+.steps li{counter-increment:s;background:#fff;border:1px solid var(--cream2);border-radius:var(--r);padding:20px 22px 20px 22px;display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start}
+.steps li::before{content:counter(s);width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--green);font-weight:900;font-size:1.2rem;display:grid;place-items:center}
+.steps h3{font-size:1.08rem;color:var(--green);margin-bottom:2px}
+.steps p{color:var(--muted);font-size:.96rem}
+.steps code,.note code{background:var(--cream2);border-radius:6px;padding:1px 7px;font-family:inherit;font-weight:700;color:var(--green)}
+.note{margin-top:18px;background:#FFF8E6;border:1px solid #F0DDA8;border-radius:var(--r);padding:16px 20px;color:#6B5617;font-size:.95rem;display:flex;gap:12px}
+.note svg{width:22px;height:22px;flex:none;stroke:#B8901F;fill:none;stroke-width:2;margin-top:4px}
+
+.sub-h{display:flex;align-items:center;gap:12px;margin:44px 0 8px;font-size:1.35rem;font-weight:900;color:var(--green)}
+.sub-h::before{content:"";width:6px;height:28px;border-radius:3px;background:var(--gold)}
+.sub-p{color:var(--muted);margin-bottom:16px;max-width:760px}
+.dl-links{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.btn-soft{background:#fff;color:var(--green);border-color:var(--cream2)}
+.btn-soft:hover{border-color:var(--gold)}
+.steps code.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block;word-break:break-all}
+
+.steps a.ext{color:var(--green);font-weight:700;text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+.steps a.ext:hover{color:#1a73e8}
+/* live */
+.live-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px}
+.seg{display:inline-flex;background:rgba(0,0,0,.25);border-radius:999px;padding:5px;gap:4px}
+.seg button{border:0;background:none;color:var(--mint);padding:9px 20px;border-radius:999px;font:700 .95rem Cairo,sans-serif;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+.screen{margin-inline:auto;background:#0a0f0e;border-radius:18px;padding:12px;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(224,182,74,.3);transition:width .35s}
+.screen.landscape{width:min(100%,1000px)}
+.screen.portrait{width:min(100%,420px)}
+.screen iframe{display:block;width:100%;border:0;border-radius:8px;background:#0b2a24}
+.screen.landscape iframe{aspect-ratio:16/9}
+.screen.portrait iframe{aspect-ratio:9/16}
+.live-hint{text-align:center;color:var(--mint);font-size:.93rem;margin-top:18px}
+
+/* contact */
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:820px;margin-inline:auto}
+.c-card{background:#fff;border:1px solid var(--cream2);border-radius:var(--r);padding:28px;text-align:center;text-decoration:none;transition:transform .2s,box-shadow .2s;display:block}
+.c-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,42,36,.09)}
+.c-card .ico{margin:0 auto 12px}
+.c-card h3{color:var(--green);font-size:1.15rem}
+.c-card span{color:var(--muted);direction:ltr;unicode-bidi:plaintext;display:block}
+.c-empty{text-align:center;color:var(--muted)}
+.c-name{text-align:center;color:var(--green);font-weight:700;margin-top:22px}
+
+footer{background:#071C18;color:var(--mint);padding:38px 0;text-align:center;font-size:.95rem}
+footer .brand{justify-content:center;margin-bottom:10px}
+footer .credit{color:var(--gold);font-weight:700;margin-bottom:4px}
+footer nav ul{justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+
+.top-btn{position:fixed;left:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--gold);color:var(--green);border:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+.top-btn.show{opacity:1;pointer-events:auto}
+.top-btn svg{width:22px;height:22px}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}}
+
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;gap:44px;text-align:center}
+  .hero .tag{margin-inline:auto}.hero .actions,.chips{justify-content:center}
+  .shots{max-width:640px;margin-inline:auto;width:100%}
+  .grid{grid-template-columns:1fr 1fr}
+  .dl{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  :root{--nav:120px}
+  #home{padding:calc(var(--nav) + 4px) 0 60px}
+  header{height:auto}
+  header .wrap{height:auto;flex-direction:column;gap:2px;padding:8px 0 6px}
+  .brand{font-size:1.1rem}.brand img{width:32px;height:32px}
+  header nav ul{flex-wrap:wrap;justify-content:center;gap:2px 0}
+  header nav a{padding:4px 10px;font-size:.88rem}
+}
+@media (max-width:360px){header nav a{padding:4px 7px;font-size:.82rem}}
+@media (max-width:620px){
+  body{font-size:16px}
+  section{padding:66px 0}
+  .grid{grid-template-columns:1fr}
+  .calc{grid-template-columns:1fr}
+  .phone{left:-6px;width:34%}
+  .dl-card{padding:24px}
+  .steps li{grid-template-columns:1fr;gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     إعدادات الموقع — عدّل القيم هنا فقط
+     ===================================================================== -->
+<script>
+const SITE = {
+  version:  "1.0",                               // رقم إصدار التطبيق
+  updated:  "نوفمبر 2026",                        // تاريخ آخر تحديث
+  apkSize:  "1.3 ميجابايت",                      // حجم ملف APK مثل "6 ميجابايت" (اتركه فارغاً لإخفائه)
+  apkUrl:   "downloads/mawaqit-almasjid.apk",    // مكان ملف التطبيق
+  whatsapp: "96897172836",                       // رقم واتساب بالصيغة الدولية بدون + مثل "96899999999"
+  phone:    "96897172836",                       // رقم الاتصال
+  name:     "",                                  // الاسم الظاهر أسفل قسم التواصل
+  email:    ""                                   // البريد الإلكتروني
+};
+</script>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#home"><img src="assets/icon.svg" alt="" width="38" height="38">مواقيت المسجد</a>
+    <nav id="nav" aria-label="القائمة الرئيسية">
+      <ul>
+        <li><a href="#home">الرئيسية</a></li>
+        <li><a href="#features">المزايا</a></li>
+        <li><a href="#download">التحميل</a></li>
+        <li><a href="#install">دليل التثبيت</a></li>
+        <li><a href="#live">التطبيق المباشر</a></li>
+        <li><a href="#contact">التواصل</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ============ الرئيسية ============ -->
+<section id="home" class="dark">
+  <div class="wrap hero">
+    <div>
+      <h1>مواقيت <span>المسجد</span></h1>
+      <p class="tag">تطبيق مجاني لعرض مواقيت الأذان والإقامة على شاشات المساجد، بواجهة عربية واضحة تُقرأ من بعيد.</p>
+      <div class="actions">
+        <a class="btn btn-gold" href="#download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
+          تحميل التطبيق
+        </a>
+        <a class="btn btn-line" href="#live">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l12 8-12 8z"/></svg>
+          جرّبه الآن
+        </a>
+      </div>
+      <ul class="chips">
+        <li>Android TV</li><li>TV Box</li><li>المتصفح</li><li>اختيار الموقع تلقائياً أو يدوياً</li><li>مجاني</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <div class="tv"><img src="assets/screen-landscape.webp" width="1280" height="853" alt="شاشة تطبيق مواقيت المسجد بالوضع الأفقي: اسم المسجد والتاريخ والساعة وجدول الأذان والإقامة"></div>
+      <div class="phone"><img src="assets/screen-portrait.webp" width="720" height="992" alt="شاشة التطبيق بالوضع العمودي" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ المزايا ============ -->
+<section id="features">
+  <div class="wrap">
+    <div class="head center reveal">
+      <span class="eyebrow">المزايا</span>
+      <h2>كل ما تحتاجه شاشة المسجد</h2>
+      <p class="lead">صُمّم التطبيق ليعمل على شاشة المسجد طوال اليوم دون تدخّل، مع إعدادات مرنة تناسب كل مسجد.</p>
+    </div>
+    <div class="grid">
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>شاشة متكاملة</h3>
+        <p>اسم المسجد، واليوم، والتاريخان الهجري والميلادي، وساعة كبيرة واضحة تُقرأ من آخر المسجد.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M9 4v16"/></svg></div>
+        <h3>الأذان والإقامة</h3>
+        <p>جدول بأوقات الأذان والإقامة لكل صلاة مع الشروق، وتمييز الصلاة القادمة بلون مختلف.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div>
+        <h3>عدّ تنازلي</h3>
+        <p>عدّاد للوقت المتبقي على الأذان ثم على الإقامة، مع تنبيه المصلين بإغلاق الهاتف قبل الصلاة.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="13" height="9" rx="1.5"/><rect x="17" y="3" width="5" height="16" rx="1.5"/></svg></div>
+        <h3>أفقي وعمودي</h3>
+        <p>تخطيط يتكيّف مع اتجاه الشاشة تلقائياً، مع ثيمات ألوان وخطوط متعددة وإطار إسلامي مزخرف.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/></svg></div>
+        <h3>الأذكار والأدعية</h3>
+        <p>شريط أدعية متحرك، وعرض أذكار الصباح والمساء وأذكار ما بعد الصلاة بنصوص قابلة للتعديل.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></div>
+        <h3>تذكير بالصيام</h3>
+        <p>تنبيهات تلقائية بالأيام البيض ويوم عرفة وعاشوراء، والعشر الأوائل من ذي الحجة.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></div>
+        <h3>أصوات التنبيه</h3>
+        <p>اختيار صوت للأذان وآخر للإقامة مع التحكم بمستوى الصوت، وإمكانية رفع ملفات صوتية خاصة.</p>
+      </article>
+      <article class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 4l18 13"/></svg></div>
+        <h3>إخفاء الشاشة وقت الصلاة</h3>
+        <p>تُطفأ الشاشة أثناء صلاة الجماعة وبعد أذان الجمعة بمدة تحددها أنت، حتى لا تشغل المصلين.</p>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ التحميل ============ -->
+<section id="download" class="dark">
+  <div class="wrap">
+    <div class="head center reveal">
+      <span class="eyebrow">التحميل</span>
+      <h2>اختر النسخة المناسبة لشاشتك</h2>
+      <p class="lead">النسختان مجانيتان وبنفس المزايا. اختر التطبيق لأجهزة Android TV، أو ملف HTML لأي جهاز فيه متصفح.</p>
+    </div>
+    <div class="dl">
+      <article class="dl-card reveal">
+        <div class="dl-top">
+          <div class="dl-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+          <div><h3>تطبيق أندرويد</h3><div class="sub">لأجهزة Android TV وأجهزة TV Box</div></div>
+        </div>
+        <p>ثبّته على جهاز TV Box متصل بشاشة المسجد، ويعمل بملء الشاشة ويفتح تلقائياً عند تشغيل الجهاز.</p>
+        <ul class="meta">
+          <li>الإصدار: <b data-site="version">1.0</b></li>
+          <li data-hide-empty="apkSize">الحجم: <b data-site="apkSize"></b></li>
+          <li>الصيغة: <b>APK</b></li>
+          <li>آخر تحديث: <b data-site="updated"></b></li>
+        </ul>
+        <div class="btns">
+          <a class="btn btn-gold" id="apkLink" href="downloads/mawaqit-almasjid.apk" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
+            تحميل التطبيق (APK)
+          </a>
+          <a class="btn btn-line" href="#install" data-tab="tv">طريقة التثبيت</a>
+        </div>
+      </article>
+
+      <article class="dl-card reveal">
+        <div class="dl-top">
+          <div class="dl-icon"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div>
+          <div><h3>ملف HTML</h3><div class="sub">للتشغيل من أي متصفح</div></div>
+        </div>
+        <p>ملف واحد يعمل على الكمبيوتر أو الشاشة الذكية أو أي جهاز فيه متصفح، دون تثبيت.</p>
+        <ul class="meta">
+          <li>الإصدار: <b data-site="version">1.0</b></li>
+          <li>الحجم: <b>أقل من 100 كيلوبايت</b></li>
+          <li>الصيغة: <b>HTML</b></li>
+          <li>يعمل على: <b>Chrome و Edge وغيرهما</b></li>
+        </ul>
+        <div class="btns">
+          <a class="btn btn-gold" href="app/index.html" download="mawaqit-almasjid.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
+            تحميل ملف HTML
+          </a>
+          <a class="btn btn-line" href="#install" data-tab="web">طريقة التشغيل</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ دليل التثبيت ============ -->
+<section id="install">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">دليل التثبيت</span>
+      <h2>ابدأ في دقائق</h2>
+      <p class="lead">خطوات بسيطة لتشغيل التطبيق على شاشة المسجد، سواء بالتطبيق أو بملف HTML.</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-tv" aria-controls="panel-tv" aria-selected="true">تطبيق Android TV</button>
+      <button class="tab" role="tab" id="tab-web" aria-controls="panel-web" aria-selected="false">ملف HTML في المتصفح</button>
+    </div>
+
+    <div class="panel" id="panel-tv" role="tabpanel" aria-labelledby="tab-tv">
+      <ol class="steps">
+        <li><div><h3>حمّل ملف التطبيق</h3><p>حمّل ملف <code>APK</code> مباشرة بفتح هذا الموقع على الجهاز نفسه، أو حمّله على فلاشة USB ثم انسخه إلى الجهاز لإكمال التثبيت.<br>أو بإمكانك تنزيله من تطبيق أو موقع <a class="ext" href="https://www.aftvnews.com/downloader" target="_blank" rel="noopener">Downloader</a> من خلال الرمز: <code class="ltr">2950780</code></p></div></li>
+        <li><div><h3>ثبّت التطبيق</h3><p>قم بتثبيت ملف التطبيق الذي نسخته من مدير الملفات، وفعّل خيار <code>مصادر غير معروفة</code> إن طُلب منك.</p></div></li>
+        <li><div><h3>اضبط إعدادات مسجدك</h3><p>افتح التطبيق واضغط زر الإعدادات (رمز الترس في زاوية الشاشة)، ثم اكتب اسم المسجد واختر الولاية، واضبط أوقات انتظار الإقامة.</p></div></li>
+        <li><div><h3>يعمل تلقائياً</h3><p>يفتح التطبيق تلقائياً كلما شُغّل الجهاز، فيعود للعمل بعد انقطاع الكهرباء. إن لم يفتح، امنحه إذن <code>الظهور فوق التطبيقات الأخرى</code> من إعدادات التطبيقات، أو اختره شاشةً رئيسية عندما يسألك الجهاز.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="panel" id="panel-web" role="tabpanel" aria-labelledby="tab-web" hidden>
+      <p class="sub-p">يمكنك فتح ملف HTML بأي متصفح، ولكن يُفضّل استخدام تطبيق <b>Fully Kiosk Browser</b> على أجهزة TV Box والشاشات الذكية التي تعمل بنظام أندرويد؛ فهو يعرض البرنامج بملء الشاشة دون شريط عنوان، ويُبقي الشاشة مضاءة، ويفتح تلقائياً عند تشغيل الجهاز.</p>
+      <div class="dl-links">
+        <a class="btn btn-green" href="https://www.fully-kiosk.com/docs/en/getting-started/downloads" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
+          تحميل Fully Kiosk من موقعه الرسمي
+        </a>
+        <a class="btn btn-soft" href="https://play.google.com/store/apps/details?id=de.ozerov.fully" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9z"/></svg>
+          أو من متجر Google Play
+        </a>
+      </div>
+      <ol class="steps">
+        <li><div><h3>حمّل ملف HTML</h3><p>حمّل ملف البرنامج من قسم التحميل إلى مجلد التنزيلات <code>Download</code> في الجهاز.</p></div></li>
+        <li><div><h3>ثبّت متصفح Fully Kiosk</h3><p>ثبّته من متجر Google Play، أو حمّل ملف APK من موقعه الرسمي وثبّته كما في خطوات تثبيت تطبيق Android TV.</p></div></li>
+        <li><div><h3>افتح إعدادات Fully Kiosk</h3><p>افتح المتصفح، ثم اضغط على زر الرجوع مطولاً، أو اسحب الشاشة من الحافة اليسرى حتى تظهر لك قائمة، واختر <code>Settings</code>.</p></div></li>
+        <li><div><h3>اختر ملف البرنامج كصفحة بداية</h3><p>ادخل <code>Web Content Settings</code> ثم <code>Start URL</code>، واختر الملف الذي نزّلته من زر اختيار الملفات، وابحث عنه في مجلد التنزيلات.<br>ووافق على إذن الوصول إلى الملفات إن طُلب منك.</p></div></li>
+        <li><div><h3>شغّله تلقائياً وأبقِ الشاشة مضاءة</h3><p>من <code>Device Management</code> فعّل <code>Launch on Boot</code> ليفتح المتصفح عند تشغيل الجهاز، و<code>Keep Screen On</code> لمنع انطفاء الشاشة.</p></div></li>
+        <li><div><h3>اضبط إعدادات مسجدك</h3><p>ارجع إلى الصفحة الرئيسية للمتصفح فيظهر البرنامج، ثم اضغط رمز الترس واكتب اسم المسجد واختر الموقع.</p></div></li>
+      </ol>
+      <div class="note">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+        <div>الخطوات أعلاه تعمل بالنسخة المجانية من Fully Kiosk، والخيارات المُعلَّمة بكلمة <b>PLUS</b> مدفوعة ولا يحتاجها البرنامج. وقد تختلف أسماء القوائم قليلاً بحسب إصدار المتصفح.</div>
+      </div>
+      <div class="note">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+        <div>حساب المواقيت يعمل بدون إنترنت. يحتاج البرنامج الإنترنت فقط لتحميل الخطوط المزخرفة وعرض درجة الحرارة، وبدونه يستخدم خطاً بديلاً.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ التطبيق المباشر ============ -->
+<section id="live" class="dark">
+  <div class="wrap">
+    <div class="head center reveal">
+      <span class="eyebrow">التطبيق المباشر</span>
+      <h2>جرّب التطبيق الآن</h2>
+      <p class="lead">هذه نسخة حقيقية تعمل داخل الصفحة. اضغط رمز الترس لتجربة الإعدادات وتغيير الثيمات.</p>
+    </div>
+    <div class="live-bar">
+      <div class="seg" role="group" aria-label="اتجاه الشاشة">
+        <button type="button" data-o="landscape" aria-pressed="true">شاشة أفقية</button>
+        <button type="button" data-o="portrait" aria-pressed="false">شاشة عمودية</button>
+      </div>
+      <a class="btn btn-line" href="app/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        فتح بملء الشاشة
+      </a>
+    </div>
+    <div class="screen landscape" id="screen">
+      <iframe src="app/" title="تطبيق مواقيت المسجد — نسخة تجريبية" loading="lazy" allow="fullscreen; geolocation; screen-wake-lock; autoplay"></iframe>
+    </div>
+    <p class="live-hint">يمكنك أيضاً فتح هذه الصفحة مباشرة على شاشة المسجد واستخدامها بدل تحميل الملف.</p>
+  </div>
+</section>
+
+<!-- ============ التواصل ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="head center reveal">
+      <span class="eyebrow">التواصل</span>
+      <h2>يسعدنا تواصلك</h2>
+      <p class="lead">لاقتراح ميزة، أو الإبلاغ عن مشكلة، أو طلب مساعدة في التثبيت.</p>
+    </div>
+    <div class="contact" id="contactCards">
+      <a class="c-card reveal" id="waCard" href="#" target="_blank" rel="noopener" hidden>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a3.5 3.5 0 0 1-1.8-1.8l.8-1-1-2z"/></svg></div>
+        <h3>واتساب</h3><span id="waText"></span>
+      </a>
+      <a class="c-card reveal" id="telCard" href="#" hidden>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div>
+        <h3>اتصال</h3><span id="telText"></span>
+      </a>
+      <a class="c-card reveal" id="mailCard" href="#" hidden>
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+        <h3>البريد الإلكتروني</h3><span id="mailText"></span>
+      </a>
+    </div>
+    <p class="c-name" id="contactName" hidden></p>
+    <p class="c-empty" id="contactEmpty" hidden>سيتم إضافة وسائل التواصل قريباً.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#home"><img src="assets/icon.svg" alt="" width="38" height="38">مواقيت المسجد</a>
+    <nav aria-label="روابط سريعة"><ul>
+      <li><a href="#features">المزايا</a></li><li><a href="#download">التحميل</a></li>
+      <li><a href="#install">دليل التثبيت</a></li><li><a href="#live">التطبيق المباشر</a></li><li><a href="#contact">التواصل</a></li>
+    </ul></nav>
+    <p class="credit">إعداد عبدالله بن محمد النعماني</p>
+    <p>© <span id="yr">2026</span> مواقيت المسجد — التطبيق مجاني للاستخدام في أي مجال</p>
+  </div>
+</footer>
+
+<button class="top-btn" id="topBtn" aria-label="العودة للأعلى">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+
+  // البدء دائماً من رأس الصفحة، والتنقل بين الأقسام دون تغيير عنوان الصفحة
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  if(location.hash){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} }
+  scrollTo(0,0);
+  addEventListener('load',()=>scrollTo(0,0));
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('a[href^="#"]'); if(!a) return;
+    const id=a.getAttribute('href').slice(1); e.preventDefault();
+    if(!id||id==='home'){ scrollTo({top:0,behavior:'smooth'}); return; }
+    const t=document.getElementById(id); if(t) t.scrollIntoView({behavior:'smooth'});
+  });
+
+  // تعبئة البيانات من SITE
+  $$('[data-site]').forEach(el=>{const v=SITE[el.dataset.site]; if(v) el.textContent=v;});
+  $$('[data-hide-empty]').forEach(el=>{ if(!SITE[el.dataset.hideEmpty]) el.hidden=true; });
+  if(SITE.apkUrl) $('#apkLink').href=SITE.apkUrl;
+  let any=false;
+  if(SITE.whatsapp){const n=SITE.whatsapp.replace(/\D/g,''); $('#waCard').href='https://wa.me/'+n; $('#waText').textContent='+'+n.replace(/^(968)(\d{4})(\d{4})$/,'$1 $2 $3'); $('#waCard').hidden=false; any=true;}
+  if(SITE.phone){const n=SITE.phone.replace(/\D/g,''); $('#telCard').href='tel:+'+n; $('#telText').textContent='+'+n.replace(/^(968)(\d{4})(\d{4})$/,'$1 $2 $3'); $('#telCard').hidden=false; any=true;}
+  if(SITE.name){$('#contactName').textContent='إعداد: '+SITE.name; $('#contactName').hidden=false;}
+  if(SITE.email){$('#mailCard').href='mailto:'+SITE.email; $('#mailText').textContent=SITE.email; $('#mailCard').hidden=false; any=true;}
+  if(!any) $('#contactEmpty').hidden=false;
+  $('#yr').textContent=new Date().getFullYear();
+
+  // تمييز القسم الحالي في القائمة
+  const links=[...$$('#nav a')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){
+    links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+  }}),{rootMargin:'-45% 0px -50% 0px'});
+  $$('main section').forEach(s=>io.observe(s));
+
+  // تبويبات دليل التثبيت
+  function showTab(k){
+    $$('.tab').forEach(t=>t.setAttribute('aria-selected',t.id==='tab-'+k));
+    $$('.panel').forEach(p=>p.hidden=p.id!=='panel-'+k);
+  }
+  $$('.tab').forEach(t=>t.onclick=()=>showTab(t.id.slice(4)));
+  $$('[data-tab]').forEach(a=>a.addEventListener('click',()=>showTab(a.dataset.tab)));
+
+  // اتجاه شاشة التجربة
+  $$('.seg button').forEach(b=>b.onclick=()=>{
+    $$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    $('#screen').className='screen '+b.dataset.o;
+  });
+
+  // زر العودة للأعلى
+  const tb=$('#topBtn');
+  addEventListener('scroll',()=>tb.classList.toggle('show',scrollY>700),{passive:true});
+  tb.onclick=()=>scrollTo({top:0});
+
+  // ظهور تدريجي
+  const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}}),{threshold:.12});
+  $$('.reveal').forEach(el=>ro.observe(el));
+})();
+</script>
+</body>
+</html>
