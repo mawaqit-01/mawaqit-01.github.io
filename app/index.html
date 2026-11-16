@@ -593,6 +593,7 @@ const SN={ram:'رمضان شهر الصيام والقيام والقرآن، ت
 Object.assign(SN,{ram:'رمضان شهر الصيام والقيام والقرآن، فاغتنم أيامه',qadr:'ليلة القدر خير من ألف شهر، فالتمسوها في العشر الأواخر',dhl:'عشر ذي الحجة: أكثروا من التكبير والتهليل والصيام',jum:'أكثروا من الصلاة على النبي ﷺ، وفي الجمعة ساعة استجابة',bet:'الدعاء بين الأذان والإقامة لا يُرَدّ، فادعُ لنفسك ولأحبابك',ny:'هنّئتم بالسنة الهجرية الجديدة، وكل عام وأنتم بخير',mol:'ذكرى مولد النبي محمد ﷺ، اللهم صلّ وسلّم عليه'});
 const ASH=w=>w+' عاشوراء (10 محرم)، تذكير بصيامه',ASH0=w=>w+' العاشر من محرم، تذكير بصيام يوم عاشوراء، ويُستحب صيام التاسع معه',ARF=w=>w+' يوم عرفة، تذكير بصيامه لغير الحاج',ARF0=w=>w+' يوم عرفة (التاسع من ذي الحجة)، تذكير بصيامه لغير الحاج، يكفّر السنة الماضية والباقية',WH=w=>w+' من الأيام البيض، تذكير بالصيام',WH0=w=>w+' من الأيام البيض، تذكير بصيام ثلاثة أيام من كل شهر هجري (13 و 14 و 15)',MT=(w,d)=>w+' يوم '+d+'، تذكير بالصيام',MT0=(w,d)=>w+' يوم '+d+'، يُستحب صيامه';
 const SD=[SN.ram,SN.qadr,TAK,SN.dhl,WH('غدًا'),MT('غدًا','الخميس'),SN.jum,SN.bet,ASH('غدًا'),ARF('غدًا'),SN.ny,SN.mol];
+function hjDTF(o){if(LANG!='en')return new Intl.DateTimeFormat(LHJ,o);const M=['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Awwal','Jumada al-Thani','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qa'dah",'Dhu al-Hijjah'];return{format(d){const h=hij(d),r=[];if(o.day)r.push(h.d);if(o.month)r.push(o.month=='numeric'||o.month=='2-digit'?h.m:M[h.m-1]);if(o.year)r.push(h.y);return r.join(' ')+(o.year?' AH':'')}}}
 function hij(dt){const p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'numeric',year:'numeric'}).formatToParts(dt),g=t=>+p.find(x=>x.type==t).value;return{d:g('day'),m:g('month'),y:g('year')}}
 function seasons(now,ns){const out=[],adj=(+S.hAdj||0)*864e5,hc=hij(new Date(now.getTime()+adj)),hn=hij(new Date(now.getTime()+adj+864e5)),mg=TT[4].a,fj=TT[0].a,aft=ns>=mg,hI=aft?hn:hc,wd=now.getDay(),night=aft||ns<fj,tgWd=aft?(wd+1)%7:wd,tgH=aft?hn:hc,w='غدًا',wn=aft?'غدًا':'اليوم';
 if(hI.m==9)out.push(SN.ram);if(hI.m==9&&hI.d>=21)out.push(SN.qadr);if((hI.m==10&&hI.d<=3)||(hI.m==12&&hI.d>=10&&hI.d<=12))out.push(TAK);if(hI.m==12&&hI.d<=9)out.push(SN.dhl);
@@ -631,7 +632,7 @@ if(!isPh()&&dOff)dOff=0;if(dOff&&Date.now()-dOffT>120000)dOff=0;
 const vkey=dk+'|'+dOff;if(tick.vk!==vkey){tick.vk=vkey;const vd=new Date(now);vd.setDate(vd.getDate()+dOff);VT=dOff?times(vd):null;tick.vd=vd;
 const h=new Date(vd);h.setDate(h.getDate()+(+S.hAdj||0));
 $('dy').textContent=vd.toLocaleDateString(LWD,{weekday:'long'});
-$('hj').innerHTML=dbx(nd(new Intl.DateTimeFormat(LHJ,{day:'numeric',month:'long',year:'numeric'}).format(h).replace(/\s*(هـ|AH)$/,'')),'هـ');
+$('hj').innerHTML=dbx(nd(hjDTF({day:'numeric',month:'long',year:'numeric'}).format(h).replace(/\s*(هـ|AH)$/,'')),'هـ');
 $('gr').innerHTML=dbx(nd(vd.toLocaleDateString(LGR,{day:'numeric',month:'long',year:'numeric'}).replace(/\s*م$/,'')),'م')}
 {const nm=isPh()?phName():S.name,mq=$('mq');if(mq.textContent!==nm||!mq.firstElementChild){mq.innerHTML='';const sp=document.createElement('span');sp.textContent=nm;mq.appendChild(sp)}}if(S.fit&&fit.k!=dayK+S.name+S.mqB){fit.k=dayK+S.name+S.mqB;fitSoon(60)}
 let h=now.getHours(),mm=p2(now.getMinutes()),ss=p2(now.getSeconds());if(!S.h24)h=h%12||12;
@@ -846,7 +847,7 @@ const cur=()=>o.querySelector('[data-qt].on')?o.querySelector('[data-qt].on').da
 try{navigator.geolocation&&navigator.geolocation.getCurrentPosition(p=>{if((p.coords.accuracy||1e9)<=2000&&o.classList.contains('on')){la=p.coords.latitude;lo=p.coords.longitude;b=qBear(la,lo);km=Math.round(hvs(la,lo,KAABA[0],KAABA[1]));setInfo();show(cur())}},()=>{},{enableHighAccuracy:true,timeout:15000,maximumAge:6e4})}catch(e){}
 openQibla.sw=0;show(tab||'c');o.stop=()=>stop()}
 // ===== Month table =====
-function monthSpec(off,md){const adj=(+S.hAdj||0)*864e5,HJ=d=>hij(new Date(d.getTime()+adj)),fmH=(d,o)=>new Intl.DateTimeFormat(LHJ,o).format(new Date(d.getTime()+adj));
+function monthSpec(off,md){const adj=(+S.hAdj||0)*864e5,HJ=d=>hij(new Date(d.getTime()+adj)),fmH=(d,o)=>hjDTF(o).format(new Date(d.getTime()+adj));
 if(md=='h'){const n=new Date();n.setHours(12,0,0,0);let s=new Date(n.getTime()-(HJ(n).d-1)*864e5);for(let k=0;k<Math.abs(off);k++){if(off>0){s=new Date(s.getTime()+32*864e5);s=new Date(s.getTime()-(HJ(s).d-1)*864e5)}else{s=new Date(s.getTime()-864e5);s=new Date(s.getTime()-(HJ(s).d-1)*864e5)}}
 const m0=HJ(s).m,days=[];for(let d=new Date(s);HJ(d).m==m0&&days.length<31;d=new Date(d.getTime()+864e5))days.push(d);
 return{days,title:fmH(s,{month:'long',year:'numeric'}).replace(/\s*(هـ|AH)$/,'')+' هـ',p:d=>HJ(d).d,q:d=>d.getDate(),fn:'h'+HJ(s).y+'-'+p2(m0)}}
@@ -862,7 +863,7 @@ function shareText(t){try{if(window.MwqStore&&MwqStore.share){MwqStore.share(t);
 function openOcc(){const adj=(+S.hAdj||0)*864e5,HJ=d=>hij(new Date(d.getTime()+adj)),n=new Date();n.setHours(12,0,0,0);
 const EV=[[1,1,'رأس السنة الهجرية'],[3,12,'المولد النبوي الشريف'],[7,27,'الإسراء والمعراج'],[9,1,'بداية شهر رمضان المبارك'],[10,1,'عيد الفطر المبارك'],[12,9,'يوم عرفة'],[12,10,'عيد الأضحى المبارك']];
 const out=[];for(let k=0;k<=400&&out.length<EV.length+1;k++){const d=new Date(n.getTime()+k*864e5),h=HJ(d);const e=EV.find(x=>x[0]==h.m&&x[1]==h.d);if(e)out.push([d,h,e[2],k])}
-const fh=d=>new Intl.DateTimeFormat(LHJ,{day:'numeric',month:'long',year:'numeric'}).format(new Date(d.getTime()+adj)),fg=d=>d.toLocaleDateString(LGR,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+const fh=d=>hjDTF({day:'numeric',month:'long',year:'numeric'}).format(new Date(d.getTime()+adj)),fg=d=>d.toLocaleDateString(LGR,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const rem=k=>k==0?'اليوم':k==1?'غداً':k==2?'بعد يومين':'بعد '+nd(k)+(k<=10?' أيام':' يوماً');
 phOv('occo','<h3 class=pht2>🌙 المناسبات الإسلامية</h3><div class=occl>'+out.map(([d,h,t,k])=>`<div class=occi><b>${t}</b><div>${nd(fh(d))}</div><div class=occg>${nd(fg(d))}</div><span class=occr>${rem(k)}</span></div>`).join('')+'</div><p class=occn>التواريخ الهجرية حسب تقويم أم القرى مع تعديل التاريخ في الإعدادات، وقد تختلف يوماً حسب رؤية الهلال.</p>')}
 function openMosques(){const o=phOv('mso','<h3 class=pht2>🕌 المساجد القريبة</h3><div id=msmap class=msmap></div><button type=button class=ctb id=msg>🔍 ابحث عن المساجد في خرائط جوجل</button><p class=msst id=msst>جارٍ تحديد موقعك…</p><div id=msl class=msl></div>');
@@ -909,7 +910,7 @@ const H0=document.documentElement,lyD=H0.classList.contains('lyd')&&!H0.classLis
 a.style.top=b.style.top=cy+'px';if(document.body.classList.contains('frA')||lyD){let tl=r.left,tr=r.right;try{const rg=document.createRange();rg.selectNodeContents(tg);const q=rg.getBoundingClientRect();if(q.width>0){tl=q.left;tr=q.right}}catch(e){}a.style.left=Math.max(fw+2*vm,tl-bw-4*vm)+'px';b.style.left=Math.min(innerWidth-fw-2*vm-bw,tr+4*vm)+'px'}else if(ls){const cr=$('top').getBoundingClientRect();a.style.left=(cr.left+2*vm)+'px';b.style.left=(cr.right-bw-2*vm)+'px'}else{a.style.left=(fw+2*vm)+'px';b.style.left=(innerWidth-fw-2*vm-bw)+'px'}}
 function shareTxt(){const vd=tick.vd||new Date(),T=dOff&&VT?VT:TT,h=new Date(vd);h.setDate(h.getDate()+(+S.hAdj||0));
 const f12=sec=>{let m=Math.floor(sec/60)%1440,hh=Math.floor(m/60),mi=m%60;if(S.h24)return p2(hh)+':'+p2(mi);return p2(hh%12||12)+':'+p2(mi)+(hh<12?' ص':' م')};
-const hj=new Intl.DateTimeFormat(LHJ,{day:'numeric',month:'long',year:'numeric'}).format(h).replace(/\s*(هـ|AH)$/,'')+' هـ',gr=vd.toLocaleDateString(LGR,{day:'numeric',month:'long',year:'numeric'}).replace(/\s*م$/,'')+' م';
+const hj=hjDTF({day:'numeric',month:'long',year:'numeric'}).format(h).replace(/\s*(هـ|AH)$/,'')+' هـ',gr=vd.toLocaleDateString(LGR,{day:'numeric',month:'long',year:'numeric'}).replace(/\s*م$/,'')+' م';
 return '🕌 مواقيت الصلاة - '+phName()+'\n'+vd.toLocaleDateString(LWD,{weekday:'long'})+' '+gr+'\n'+hj+'\n\n'+P.map((p,i)=>(i==1?'🌅 ':'🔸 ')+p+': '+f12(T[i].a)).join('\n')+'\n\nتطبيق منارة\nmawaqit-masjid.com'}
 function doShare(){const t=shareTxt();try{if(window.MwqStore&&MwqStore.share){MwqStore.share(t);return}}catch(e){}if(navigator.share){navigator.share({text:t}).catch(()=>{});return}const ok=()=>toast('تم نسخ المواقيت، الصقها في أي تطبيق');try{navigator.clipboard.writeText(t).then(ok,()=>{prompt('انسخ المواقيت',t)})}catch(e){prompt('انسخ المواقيت',t)}}
 function openUrl(u){try{if(window.MwqStore&&MwqStore.openUrl){MwqStore.openUrl(u);return}}catch(e){}try{window.open(u,'_blank')||(location.href=u)}catch(e){location.href=u}}
