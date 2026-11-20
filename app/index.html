@@ -1973,6 +1973,10 @@ function verInfo() {
       const x = MwqStore.version();
       if (x) v = x;
     }
+    if (window.MwqStore && MwqStore.verCode) {
+      const n = +MwqStore.verCode();
+      if (n) v += " (" + n + ")";
+    }
   } catch (e) {
   }
   let r;
@@ -5586,6 +5590,18 @@ function rcProbe(id) {
           fin(true);
           return;
         }
+        if (v == null && first === void 0) {
+          first = null;
+          gj("/t").then((t) => {
+            if (t != null) {
+              RC.oldBox = 1;
+              fin(true);
+            }
+          }).catch(() => {
+          });
+          setTimeout(loop, 2e3);
+          return;
+        }
         if (first === void 0) first = v;
         else if (v != null && v !== first) {
           fin(true);
@@ -5694,8 +5710,25 @@ function rcAppBar() {
   }
 }
 setTimeout(rcAppBar, 300);
+function rcPhoneBase() {
+  try {
+    const raw2 = localStorage.getItem("mwq");
+    let o = null;
+    try {
+      o = raw2 ? JSON.parse(raw2) : null;
+    } catch (e) {
+    }
+    if (o && (o.appMode || o.rcId)) return;
+    o = Object.assign(o || {}, PH_DEF, { appMode: "phone" });
+    o.svn = (o.svn || 0) + 1;
+    localStorage.setItem("mwq", JSON.stringify(o));
+    localStorage.setItem("mwq_pwz", "1");
+  } catch (e) {
+  }
+}
 function rcStartMsg() {
   if (!window.RCP || rcHosted()) return;
+  rcPhoneBase();
   const nw = rcAdd(window.RCP);
   let pre = "";
   try {
@@ -5917,7 +5950,7 @@ function rcPhone() {
     }
   });
   setInterval(() => {
-    if (RC.gone || RC.ending || RC.left || document.hidden || RC.stage !== "ok") return;
+    if (RC.gone || RC.ending || RC.left || RC.oldBox || document.hidden || RC.stage !== "ok") return;
     const stale = Date.now() - Math.max(RC.bsAt || 0, RC.okAt || 0) > ((RC.bsN || 0) > 1 ? 16e3 : 35e3), off = navigator.onLine === false || RC.ok === 0 && RC.errAt && Date.now() - RC.errAt > 3e3;
     if (stale || off) rcLost();
   }, 2e3);
