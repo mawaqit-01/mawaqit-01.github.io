@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.mawaqit.mosque",
+    "sha256_cert_fingerprints": ["A9:AD:82:BC:91:68:E9:51:CA:3D:8D:11:64:9D:69:13:B6:2F:DF:44:8B:DC:CD:F4:0E:42:5C:D1:B0:7D:18:78"]
+  }
+}]
