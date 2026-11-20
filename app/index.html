@@ -5225,13 +5225,40 @@ function upTxt(us, v, nv) {
 function rcUpdIn() {
   const en = LANG == "en", b = RC.bx || {};
   if (b.v == null) return "<p class=cknote>" + (en ? "The app version on the mosque screen does not support remote update. Remote update works when the screen runs version 1.9 or newer; install it there manually once." : "إصدار التطبيق في شاشة المسجد لا يدعم التحديث عن بُعد. التحديث عن بُعد يعمل إذا كانت الشاشة على الإصدار 1.9 أو أحدث، فثبّته عليها يدوياً مرة واحدة.") + "</p>";
-  const v = +b.v || 0, nv = +b.nv || 0, vn = b.vn || "", nvn = b.nvn || "", t = upTxt(b.us, v, nv);
+  const v = +b.v || 0, la = RC.lat || {}, nv = Math.max(+b.nv || 0, +la.code || 0), vn = b.vn || (v && v < 283 ? "1.8" : ""), nvn = +la.code >= nv && la.name || b.nvn || "", t = upTxt(b.us, v, nv);
   return '<p style="margin:.2em 0;font-weight:700">' + (en ? "App version on the mosque screen: " : "إصدار التطبيق في شاشة المسجد: ") + "<bdi dir=ltr>" + esc(vn || "—") + "</bdi>" + (nv > v ? (en ? " — a new update is available" : " — يتوفر تحديث جديد") + (nvn && nvn !== vn ? (en ? ": " : ": ") + "<bdi dir=ltr>" + esc(nvn) + "</bdi>" : "") : nv ? en ? " — up to date ✔" : " — محدّث ✔" : "") + "</p>" + (nv > v || !nv ? '<div style="text-align:center"><button type=button id=rcUpB>' + (en ? "⬆ Update the app on the mosque screen" : "⬆ تحديث التطبيق في شاشة المسجد") + "</button></div>" : "") + (t ? "<p class=rcs>" + t + "</p>" : "");
 }
 function rcUpdUI() {
   const e = $("rcUpd");
   if (e) e.innerHTML = rcUpdIn();
 }
+function rcLatest() {
+  if (!window.RCP || Date.now() - (RC.latT || 0) < 10 * 6e4) return;
+  RC.latT = Date.now();
+  fetch("https://mawaqit-masjid.com/downloads/version.json?t=" + Date.now(), { cache: "no-store" }).then((r) => {
+    if (!r.ok) throw 0;
+    return r.json();
+  }).then((o) => {
+    if (o && o.code) {
+      RC.lat = { code: +o.code, name: String(o.name || "") };
+      rcUpdUI();
+    }
+  }).catch(() => {
+    RC.latT = 0;
+  });
+}
+setTimeout(() => {
+  try {
+    rcLatest();
+  } catch (e) {
+  }
+}, 1500);
+setInterval(() => {
+  try {
+    if (window.RCP && !document.hidden) rcLatest();
+  } catch (e) {
+  }
+}, 6e4);
 function rcBx(d) {
   if (!d || typeof d != "object") return;
   RC.bx = RC.bx || {};
@@ -6145,7 +6172,7 @@ setTimeout(function() {
           }
           try {
             if (rcActive() && hasUpd()) {
-              if (Date.now() - (RC.lcT || 0) > 6 * 36e5) {
+              if (Date.now() - (RC.lcT || 0) > (fast ? 10 * 6e4 : 6 * 36e5)) {
                 RC.lcT = Date.now();
                 MwqStore.checkLatest();
               }
