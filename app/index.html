@@ -1965,7 +1965,7 @@ setTimeout(() => {
   } catch (e) {
   }
 }, 4e3);
-const APP_VER = "1.8";
+const APP_VER = "1.9";
 function verInfo() {
   let v = APP_VER;
   try {
@@ -5192,7 +5192,16 @@ function rcVi() {
     us = JSON.parse(MwqStore.updState());
   } catch (e) {
   }
-  return { v: +MwqStore.verCode() || 0, nv: +MwqStore.latestCode() || 0, us };
+  let vn = "", nvn = "";
+  try {
+    vn = String(MwqStore.version() || "");
+  } catch (e) {
+  }
+  try {
+    nvn = MwqStore.latestName ? String(MwqStore.latestName() || "") : "";
+  } catch (e) {
+  }
+  return { v: +MwqStore.verCode() || 0, nv: +MwqStore.latestCode() || 0, vn, nvn, us };
 }
 function upTxt(us, v, nv) {
   if (!us || !us.st || us.st == "idle" || us.at && Date.now() - us.at > 3 * 36e5 && us.st != "latest") return "";
@@ -5215,9 +5224,9 @@ function upTxt(us, v, nv) {
 }
 function rcUpdIn() {
   const en = LANG == "en", b = RC.bx || {};
-  if (b.v == null) return "<p class=cknote>" + (en ? "The app version on the mosque screen is unknown. Remote update works when the screen runs build 273 or newer; install it there manually once." : "إصدار التطبيق في شاشة المسجد غير معروف. التحديث عن بُعد يعمل إذا كانت الشاشة على الإصدار 273 أو أحدث، فثبّته عليها يدوياً مرة واحدة.") + "</p>";
-  const v = +b.v || 0, nv = +b.nv || 0, t = upTxt(b.us, v, nv);
-  return '<p style="margin:.2em 0;font-weight:700">' + (en ? "App version on the mosque screen: " : "إصدار التطبيق في شاشة المسجد: ") + v + (nv > v ? (en ? " — a newer version is available: " : " — يتوفر إصدار أحدث: ") + nv : nv ? en ? " — up to date ✔" : " — محدّث ✔" : "") + "</p>" + (nv > v || !nv ? '<div style="text-align:center"><button type=button id=rcUpB>' + (en ? "⬆ Update the app on the mosque screen" : "⬆ تحديث التطبيق في شاشة المسجد") + "</button></div>" : "") + (t ? "<p class=rcs>" + t + "</p>" : "");
+  if (b.v == null) return "<p class=cknote>" + (en ? "The app version on the mosque screen does not support remote update. Remote update works when the screen runs version 1.9 or newer; install it there manually once." : "إصدار التطبيق في شاشة المسجد لا يدعم التحديث عن بُعد. التحديث عن بُعد يعمل إذا كانت الشاشة على الإصدار 1.9 أو أحدث، فثبّته عليها يدوياً مرة واحدة.") + "</p>";
+  const v = +b.v || 0, nv = +b.nv || 0, vn = b.vn || "", nvn = b.nvn || "", t = upTxt(b.us, v, nv);
+  return '<p style="margin:.2em 0;font-weight:700">' + (en ? "App version on the mosque screen: " : "إصدار التطبيق في شاشة المسجد: ") + "<bdi dir=ltr>" + esc(vn || "—") + "</bdi>" + (nv > v ? (en ? " — a new update is available" : " — يتوفر تحديث جديد") + (nvn && nvn !== vn ? (en ? ": " : ": ") + "<bdi dir=ltr>" + esc(nvn) + "</bdi>" : "") : nv ? en ? " — up to date ✔" : " — محدّث ✔" : "") + "</p>" + (nv > v || !nv ? '<div style="text-align:center"><button type=button id=rcUpB>' + (en ? "⬆ Update the app on the mosque screen" : "⬆ تحديث التطبيق في شاشة المسجد") + "</button></div>" : "") + (t ? "<p class=rcs>" + t + "</p>" : "");
 }
 function rcUpdUI() {
   const e = $("rcUpd");
@@ -5226,7 +5235,7 @@ function rcUpdUI() {
 function rcBx(d) {
   if (!d || typeof d != "object") return;
   RC.bx = RC.bx || {};
-  ["v", "nv", "us"].forEach((k) => {
+  ["v", "nv", "vn", "nvn", "us"].forEach((k) => {
     if (k in d) RC.bx[k] = d[k];
   });
   rcUpdUI();
@@ -5954,8 +5963,8 @@ function rcPhone() {
             rcBx(m.data);
           }
           h(m.data);
-        } else if (/^\/(v|nv|us)(\/|$)/.test(m.path)) {
-          if (/^\/(v|nv|us)$/.test(m.path)) rcBx({ [m.path.slice(1)]: m.data });
+        } else if (/^\/(v|nv|vn|nvn|us)(\/|$)/.test(m.path)) {
+          if (/^\/(v|nv|vn|nvn|us)$/.test(m.path)) rcBx({ [m.path.slice(1)]: m.data });
           else re();
         } else if (m.path === "/bs" || m.path === "/hi" || m.path === "/t" || m.path === "/by" || m.path === "/off" || m.path === "/up") {
         } else re();
