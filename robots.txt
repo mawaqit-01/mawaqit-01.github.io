@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mawaqit-masjid.com/sitemap.xml
+Sitemap: https://manara1.net/sitemap.xml
